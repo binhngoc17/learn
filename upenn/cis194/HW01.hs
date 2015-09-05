@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wall #-}
 module HW01 where
-import Data.List as List
+import qualified Data.List as List
 
 -- Exercise 1 -----------------------------------------
 
