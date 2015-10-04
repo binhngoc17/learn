@@ -74,15 +74,29 @@ Problem 2: Reverse list with mutation
 =end
 
 def reverse_list_with_mutation(list, previous=nil)
-  reversed_list = previous
-  while list
-    reversed_list = LinkedListNode.new(list.value, reversed_list)
-    list = list.next_node
+
+  while not list.nil?
+    next_node = list.next_node
+    list.next_node = previous
+    previous = list
+    list = next_node
   end
-  reversed_list
+
+  previous
+
 end
 
 puts print_values(reverse_list_with_mutation(node3))
+
+# def reverse_list_recursive(list, previous=nil)
+#   if list.nil?
+#     previous
+#   else
+#     reverse_list_recursive(list.next_node, LinkedListNode.new(list.value, previous))
+#   end
+# end
+
+# puts print_values(reverse_list_recursive(node3))
 
 =begin
 Problem 3: Detect circle in a list
