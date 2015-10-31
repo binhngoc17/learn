@@ -11,40 +11,62 @@ import Data.Functor
 import Data.Monoid
 import Data.Vector (Vector, cons, (!), (!?), (//))
 import System.Random
-
+import Data.List as List
 import qualified Data.Vector as V
 
 
 -- Exercise 1 -----------------------------------------
 
 liftM :: Monad m => (a -> b) -> m a -> m b
-liftM = undefined
+liftM f ma = ma >>= \a -> return $ f a 
+
+--swapElts :: Int -> Int -> List -> List
+--swapElts i j ls = [get k x | (k, x) <- zip [0..length ls - 1] ls]
+--  where get k x | k == i = ls !! j
+--                | k == j = ls !! i
+--                | otherwise = x
+
+getV :: Int -> Int -> Vector a -> Int -> Maybe a
+getV x y v t
+  |  x == t = v !? y
+  |  y == t = v !? x
+  |  otherwise = v !? t
 
 swapV :: Int -> Int -> Vector a -> Maybe (Vector a)
-swapV = undefined
+swapV x y v = sequence $ (V.map (getV x y v) (V.enumFromN 0 (V.length v)))
 
 -- Exercise 2 -----------------------------------------
 
+--sequence :: Monad m => [m a] -> m [a]
+--sequence [] = return []
+--sequence (ma:mas) = do
+--  a  <- ma
+--  as <- sequence mas
+--  return (a:as)
+
 mapM :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM = undefined
+mapM f l = sequence $ map f l
 
 getElts :: [Int] -> Vector a -> Maybe [a]
-getElts = undefined
+getElts l v = mapM (\x -> (v !? x)) l
 
 -- Exercise 3 -----------------------------------------
 
 type Rnd a = Rand StdGen a
 
 randomElt :: Vector a -> Rnd (Maybe a)
-randomElt = undefined
+randomElt v = do
+  i <- (getRandomR (0, (V.length v)))
+  return (v !? i)
 
 -- Exercise 4 -----------------------------------------
 
 randomVec :: Random a => Int -> Rnd (Vector a)
-randomVec = undefined
+randomVec l = fmap V.fromList (replicateM l getRandom)
+--randomVec l = (replicateM l getRandom) >>= \t -> return (V.fromList t)
 
 randomVecR :: Random a => Int -> (a, a) -> Rnd (Vector a)
-randomVecR = undefined
+randomVecR l hi_lo = fmap V.fromList (replicateM l (getRandomR hi_lo))
 
 -- Exercise 5 -----------------------------------------
 

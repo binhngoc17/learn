@@ -7,7 +7,9 @@ import Data.Functor
 -- Exercise 1 -----------------------------------------
 
 fib :: Integer -> Integer
-fib = undefined
+fib 0 = 1
+fib 1 = 1
+fib i = (fib (i-1)) + (fib (i-2))
 
 fibs1 :: [Integer]
 fibs1 = undefined
@@ -16,6 +18,9 @@ fibs1 = undefined
 
 fibs2 :: [Integer]
 fibs2 = undefined
+
+fibs3 :: [Integer]
+fibs3 = 1 : 1 : (map sum (tail (tail (inits fibs3))))
 
 -- Exercise 3 -----------------------------------------
 
@@ -27,31 +32,36 @@ instance Show a => Show (Stream a) where
              ++ ",..."
 
 streamToList :: Stream a -> [a]
-streamToList = undefined
+streamToList (Cons a s) = a : (streamToList s)
 
 -- Exercise 4 -----------------------------------------
 
 instance Functor Stream where
-    fmap = undefined
+    fmap f (Cons a x) = Cons (f a) (fmap f x)
 
 -- Exercise 5 -----------------------------------------
 
 sRepeat :: a -> Stream a
-sRepeat = undefined
+sRepeat x = Cons x (sRepeat x)
 
 sIterate :: (a -> a) -> a -> Stream a
-sIterate = undefined
+sIterate f x = Cons x (sIterate f (f x))
 
 sInterleave :: Stream a -> Stream a -> Stream a
-sInterleave (Cons _ _) _ = undefined
+sInterleave (Cons b x) (Cons a y) = Cons b (Cons a (sInterleave x y))
+
 
 sTake :: Int -> Stream a -> [a]
-sTake = undefined
+sTake 0 _ = []
+sTake n (Cons a s) = a : (sTake (n -1) s)
 
 -- Exercise 6 -----------------------------------------
+sSeries :: Integer -> Stream Integer
+sSeries x = Cons x (sSeries (x + 1))
+
 
 nats :: Stream Integer
-nats = undefined
+nats = sSeries 0
 
 ruler :: Stream Integer
 ruler = undefined
