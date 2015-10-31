@@ -29,20 +29,39 @@ data Statement =
   | Skip
   deriving (Show, Eq)
 
+-- Define a function to store variable
 type State = String -> Int
 
 -- Exercise 1 -----------------------------------------
 
 extend :: State -> String -> Int -> State
-extend = undefined
+extend state var val = (\x -> if x == var then val else state x)
 
 empty :: State
-empty = undefined
+empty = (\x -> 0)
 
 -- Exercise 2 -----------------------------------------
+--boolToInt :: (Int -> Int -> Int) -> (Int -> Int -> Bool)
+--boolToInt fn x y
+-- | fn x y    = 1
+-- | otherwise = 0
+--
+--binaryOpFunc :: Bop -> (Int -> Int -> Int)
+--binaryOpFunc bop
+--    | bop == Plus = (+)
+--    | bop == Times = (*)
+--    | bop == Minus = (-)
+--    | bop == Divide = div
+--    | bop == Gt  = boolToInt (>)
+--    | bop == Lt = boolToInt (<)
+--    | bop == Ge = boolToInt (>=)
+--    | bop == Le  = boolToInt (<=)
+--    | bop == Eql  = boolToInt (==)
 
 evalE :: State -> Expression -> Int
-evalE = undefined
+evalE state (Val a) = a
+evalE state (Var a) = state a
+evalE state (Op exp1 bop wxp2) = (evalE state exp1) bop (evalE state exp1)
 
 -- Exercise 3 -----------------------------------------
 

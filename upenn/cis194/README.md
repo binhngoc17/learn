@@ -15,4 +15,7 @@ GHCI useful commands
 :help
 -- Reload the module
 :reload
+-- Understand the type, this can be applied to a function as well
+:t <var>
+
 ```

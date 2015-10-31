@@ -9,15 +9,15 @@ import Data.Functor
 fib :: Integer -> Integer
 fib 0 = 1
 fib 1 = 1
-fib i = (fib (i-1)) + (fib (i-2))
+fib x = (fib (x - 1)) + (fib (x - 2))
 
 fibs1 :: [Integer]
-fibs1 = undefined
+fibs1 = 1 : 1 : zipWith (+) fibs1 (tail fibs1)
 
 -- Exercise 2 -----------------------------------------
 
 fibs2 :: [Integer]
-fibs2 = undefined
+fibs2 = 1 : 1 : zipWith (+) fibs1 (tail fibs1)
 
 fibs3 :: [Integer]
 fibs3 = 1 : 1 : (map sum (tail (tail (inits fibs3))))
